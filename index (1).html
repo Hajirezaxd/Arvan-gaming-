@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="سرور ماینکرافت آروان گیمینگ فارسی  سازی و کم ترین پینگ و با امکانات عالی">
+    <meta name="keywords" content="ماینکرافت,سرور ماینکرافت,ماینکرافت آروان گیمینگ">
+    <titel> سرور ماینکرافت آروان گیمینگ | Minecraft ArvanGaming Server</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2d2d2d;
+            --bg-color: #1a1a1a;
+            --section-color: #252525;
+            --text-color: #ffffff;
+        }
+        
+        body {
+            font-family: Tahoma, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: var(--secondary-color);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        h1, h2, h3 {
+            color: var(--primary-color);
+        }
+        
+        .server-ip {
+            background: var(--primary-color);
+            padding: 10px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: bold;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .server-ip:hover {
+            transform: scale(1.05);
+        }
+        
+        section {
+            background: var(--section-color);
+            margin: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+        }
+        
+        button, input[type="submit"] {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover, input[type="submit"]:hover {
+            background: #45a049;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+            border: none;
+            background: #333;
+            color: white;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        
+        .gallery img {
+            width: 100%;
+            border-radius: 5px;
+            transition: transform 0.3s;
+        }
+        
+        .gallery img:hover {
+            transform: scale(1.03);
+        }
+        
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .online {
+            background: #4CAF50;
+        }
+        
+        .offline {
+            background: #f44336;
+        }
+        
+        .player-list {
+            margin-top: 10px;
+            padding: 10px;
+            background: #333;
+            border-radius: 5px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: var(--secondary-color);
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            header {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            .server-ip {
+                font-size: 0.9em;
+                padding: 8px 12px;
+            }
+            
+            section {
+                margin: 10px;
+                padding: 10px;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>به سرور ماینکرافت ما خوش آمدید!</h1>
+        <div class="ArvanGaming.ir" onclick="copyIP()">ایپی سرور= ArvanGaming.ir</div>
+        <div id="server-status" class="status">
+            در حال بررسی وضعیت سرور...
+        </div>
+    </header>
+    
+    <main>
+        <section>
+            <h2>درباره سرور</h2>
+            <p>این یک سرور ماینکرافت با بهترین  و کمترین پینگ برای کاربران ایرانی است. ویژگی‌های سرور:</p>
+            <ul>
+                <li>نسخه:.1.21/ 1.20.1</li>
+                <li>آنتی-چیت فعال</li>
+                <li>پینگ پایین برای ایران</li>
+                <li>بیش از 50 پلاگین جذاب</li>
+                <li>پشتیبانی 24 ساعته</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>وضعیت لحظه‌ای سرور</h2>
+            <div id="server-info">
+                در حال دریافت اطلاعات...
+            </div>
+            <div id="players" class="player-list">
+                بازیکنان آنلاین:
+                <div id="player-names"></div>
+            </div>
+        </section>
+        
+        <section>
+            <h2>عضویت در سرور</h2>
+            <form id="register">
+                <label for="mcname">نام کاربری ماینکرافت:</label>
+                <input type="text" id="mcname" required placeholder="نام کاربری خود را وارد کنید">
+                
+                <label for="email">ایمیل (اختیاری):</label>
+                <input type="email" id="email" placeholder="example@gmail.com">
+                
+                <label for="comments">نظرات/پیشنهادات:</label>
+                <textarea id="comments" rows="3" placeholder="نظرات خود را بنویسید..."></textarea>
+                
+                <button type="submit">ثبت نام</button>
+            </form>
+        </section>
+        
+        <section>
+            <h2>گالری سرور</h2>
+            <div class="gallery">
+                <img src="https://via.placeholder.com/300x200/333/fff?text=تصویر+1" alt="تصویر سرور 1">
+                <img src="https://via.placeholder.com/300x200/333/fff?text=تصویر+2" alt="تصویر سرور 2">
+                <img src="https://via.placeholder.com/300x200/333/fff?text=تصویر+3" alt="تصویر سرور 3">
+                <img src="https://via.placeholder.com/300x200/333/fff?text=تصویر+4" alt="تصویر سرور 4">
+            </div>
+        </section>
+        
+        <section>
+            <h2>راه‌های ارتباطی</h2>
+            <p><strong>دیسکورد:</strong> <a href="https://discord.gg/example" style="color:var(--primary-color);">لینک عضویت</a></p>
+            <p><strong>تلگرام:</strong> @ArvanGaming</p>
+            <p><strong>اینستاگرام:</strong> @soon</p>
+        </section>
+        
+        <section>
+            <h2>راهنمای اتصال</h2>
+            <ol>
+                <li>بازی ماینکرافت را باز کنید</li>
+                <li>روی Multiplayer کلیک کنید</li>
+                <li>Add Server را بزنید</li>
+                <li>آیپی سرور را وارد کنید</li>
+                <li>Done و سپس Join Server را بزنید</li>
+            </ol>
+        </section>
+    </main>
+    
+    <footer>
+        <p>© 2023 سرور ماینکرافت ایرانی | تمامی حقوق محفوظ است</p>
+    </footer>
+
+    <script>
+        // نمایش وضعیت سرور
+        function updateServerStatus() {
+            fetch('https://api.mcsrvstat.us/2/ArvanGaming.ir')
+                .then(response => response.json())
+                .then(data => {
+                    const statusDiv = document.getElementById('server-status');
+                    const infoDiv = document.getElementById('server-info');
+                    
+                    if(data.online) {
+                        statusDiv.className = 'status online';
+                        statusDiv.innerHTML = '<strong>وضعیت:</strong> آنلاین';
+                        
+                        let infoHTML = `
+                            <p><strong>نسخه:</strong> ${data.version}</p>
+                            <p><strong>بازیکنان:</strong> ${data.players.online}/${data.players.max}</p>
+                            <p><strong>پینگ:</strong> ${data.ping}ms</p>
+                        `;
+                        
+                        infoDiv.innerHTML = infoHTML;
+                        
+                        // نمایش بازیکنان آنلاین
+                        if(data.players.list) {
+                            let playersHTML = '';
+                            data.players.list.forEach(player => {
+                                playersHTML += `<div>• ${player}</div>`;
+                            });
+                            document.getElementById('player-names').innerHTML = playersHTML;
+                        }
+                    } else {
+                        statusDiv.className = 'status offline';
+                        statusDiv.innerHTML = '<strong>وضعیت:</strong> آفلاین';
+                        infoDiv.innerHTML = '<p>سرور در حال حاضر در دسترس نیست. لطفاً بعداً تلاش کنید.</p>';
+                        document.getElementById('player-names').innerHTML = '';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching server status:', error);
+                    document.getElementById('server-status').innerHTML = '<strong>خطا در دریافت وضعیت سرور</strong>';
+                });
+        }
+        
+        // کپی کردن آیپی سرور
+        function copyIP() {
+            const ip = 'ArvanGaming.ir';
+            navigator.clipboard.writeText(ip)
+                .then(() => {
+                    alert(`آیپی سرور (${ip}) کپی شد!`);
+                })
+                .catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+        }
+        
+        // فرم ثبت نام
+        document.getElementById('register').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const username = document.getElementById('mcname').value;
+            const email = document.getElementById('email').value;
+            const comments = document.getElementById('comments').value;
+            
+            // ذخیره در localStorage
+            const registration = {
+                username,
+                email,
+                comments,
+                date: new Date().toLocaleString()
+            };
+            
+            let registrations = JSON.parse(localStorage.getItem('mcRegistrations') || '[]');
+            registrations.push(registration);
+            localStorage.setItem('mcRegistrations', JSON.stringify(registrations));
+            
+            alert(`${username} عزیز، درخواست شما ثبت شد! به زودی با شما تماس می‌گیریم.`);
+            this.reset();
+        });
+        
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            updateServerStatus();
+            // بررسی وضعیت سرور هر 1 دقیقه
+            setInterval(updateServerStatus, 60000);
+        });
+    </script>
+</body>
+</html>
